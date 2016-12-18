@@ -7,7 +7,7 @@ const Lorem = require('react-lorem-component');
 class Feed extends Component {
   render() {
     return (
-      <LazyLoad height={800} offset={100}>
+      <LazyLoad height={500} offset={500}>
         <Lorem mode="list" count="1" sentenceUpperBound="2" />
       </LazyLoad>
     );
