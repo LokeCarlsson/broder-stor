@@ -8,7 +8,8 @@
   "dependencies": {
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
-    "react-lazyload": "^2.2.0"
+    "react-lazyload": "^2.2.0",
+    "react-scroll-up": "^1.1.5"
   },
   "scripts": {
     "start": "react-scripts start",

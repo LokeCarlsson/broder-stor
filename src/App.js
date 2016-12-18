@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import ScrollToTop from 'react-scroll-up';
 import Feed from './Feed.js';
 import logo from './camera.png'
+import up from './up.png'
 import './App.css';
 
 class App extends Component {
@@ -14,11 +16,6 @@ class App extends Component {
   }
 
 
-  one = () => {
-    console.log('Scroll event detected!');
-  }
-
-
   render() {
     return (
       <div className="App">
@@ -27,16 +24,17 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </div>
 
-        <table onScroll={this.one}>
-           [...]
-        </table>
-
         <p className="App-intro">
           Chat
         </p>
         <div className="Feed">
           {this.loop(200)}
         </div>
+
+        <ScrollToTop showUnder={160}>
+          <img src={up} alt="up" className="ScrollToTop" />
+        </ScrollToTop>
+
       </div>
     );
   }
