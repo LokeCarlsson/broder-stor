@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Feed from './Feed.js';
+import logo from './camera.png'
 import './App.css';
 
 class App extends Component {
@@ -17,6 +18,7 @@ class App extends Component {
       <div className="App">
         <div className="App-header">
           <h1>Broder stor</h1>
+          <img src={logo} className="App-logo" alt="logo" />
         </div>
         <p className="App-intro">
           Messages
