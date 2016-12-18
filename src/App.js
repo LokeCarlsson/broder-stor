@@ -13,6 +13,12 @@ class App extends Component {
     return result;
   }
 
+
+  one = () => {
+    console.log('Scroll event detected!');
+  }
+
+
   render() {
     return (
       <div className="App">
@@ -20,6 +26,11 @@ class App extends Component {
           <h1>Broder stor</h1>
           <img src={logo} className="App-logo" alt="logo" />
         </div>
+
+        <table onScroll={this.one}>
+           [...]
+        </table>
+
         <p className="App-intro">
           Chat
         </p>
