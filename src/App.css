@@ -7,11 +7,11 @@
 }
 
 .App-header {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: 22px;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 27px;
   background-color: #009688;
-  height: 200px;
-  padding: 20px;
+  height: 250px;
+  padding: 5px;
   color: white;
   flex-wrap: wrap;
   flex-direction: row;
@@ -29,11 +29,5 @@
 }
 
 .ScrollToTop {
-  position: 'fixed';
-  bottom: 50;
-  right: 30;
-  cursor: 'pointer';
-  transitionDuration: '0.2s';
-  transitionTimingFunction: 'linear';
-  transitionDelay: '0s';
+  height: 75px;
 }

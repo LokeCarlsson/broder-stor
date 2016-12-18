@@ -31,7 +31,7 @@ class App extends Component {
           {this.loop(200)}
         </div>
 
-        <ScrollToTop showUnder={160}>
+        <ScrollToTop showUnder={250}>
           <img src={up} alt="up" className="ScrollToTop" />
         </ScrollToTop>
 
