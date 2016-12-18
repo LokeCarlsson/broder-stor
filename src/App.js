@@ -21,7 +21,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
         </div>
         <p className="App-intro">
-          Messages
+          Chat
         </p>
         <div className="Feed">
           {this.loop(200)}
