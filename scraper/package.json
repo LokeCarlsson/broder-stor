@@ -1,0 +1,16 @@
+{
+  "name": "broder-stor-scraper",
+  "version": "1.0.0",
+  "description": "Scraper module for Broder Stor",
+  "main": "scraper.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "loglevel": "^1.4.1",
+    "sqlite3": "^3.1.8",
+    "ws": "^1.1.1"
+  }
+}
