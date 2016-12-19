@@ -25,6 +25,7 @@ class App extends Component {
         </div>
 
         <p className="App-intro">
+        Test
         </p>
         <div className="Feed">
           {this.loop(200)}
