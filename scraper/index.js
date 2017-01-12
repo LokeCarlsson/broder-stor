@@ -1,6 +1,8 @@
 const WebSocket = require("ws");
 const log = require("loglevel");
 const sqlite3 = require("sqlite3").verbose();
+const sentiment = require("sentiment");
+
 
 const SERVER_URL = "ws://vhost3.lnu.se:20080/socket/";
 
@@ -50,10 +52,20 @@ class ChatLogger {
     createTables() {
         let createChatMessageTable = `
             CREATE TABLE IF NOT EXISTS Chat_Message (
+                id INTEGER PRIMARY KEY,
                 username TEXT,
                 body TEXT,
                 received_on TEXT NOT NULL,
                 channel TEXT
+            )
+        `;
+
+        let createChatMessageSentimentTable = `
+            CREATE TABLE IF NOT EXISTS Chat_Message_Sentiment (
+                id INTEGER PRIMARY KEY,
+                sentiment_score INTEGER,
+                sentiment_comparative INTEGER,
+                FOREIGN KEY(id) REFERENCES Chat_Message(id)
             )
         `;
 
@@ -63,6 +75,7 @@ class ChatLogger {
 
         this.db.serialize(() => {
             this.db.run(createChatMessageTable);
+            this.db.run(createChatMessageSentimentTable);
             this.db.run(createUsernameIndex);
             this.db.run(createChannelIndex);
             this.db.run(createUsernameChannelIndex);
@@ -91,7 +104,34 @@ class ChatLogger {
             $received_on: sanitizedMessage.receivedOn
         };
 
-        this.db.run(insertChatMessage, data);
+        let _this = this;
+        this.db.run(insertChatMessage, data, function(error) {
+            if (error) {
+                return _this.logger.warn("Error occured on message insertion");
+            }
+
+            _this.saveMessageSentiment(sanitizedMessage.data, this.lastID);
+        });
+    }
+
+    saveMessageSentiment(message, messageID) {
+        let insertChatMessageSentiment = `
+            INSERT INTO Chat_Message_Sentiment(id, sentiment_score, sentiment_comparative)
+            VALUES($id, $sentiment_score, $sentiment_comparative)
+        `;
+
+        let data = {
+            $id: messageID,
+            $sentiment_score: sentiment(message).score,
+            $sentiment_comparative: sentiment(message).comparative
+        };
+
+        let _this = this;
+        this.db.run(insertChatMessageSentiment, data, function(error) {
+            if (error) {
+                return _this.logger.error(error);
+            }
+        });
     }
 
     onOpen(event) {
@@ -122,6 +162,7 @@ class ChatLogger {
 
     onMessage(message) {
         this.logger.info("Message received:", message)
+        this.logger.info("Sentiment", sentiment(message.data));
         this.saveMessage(message);
     }
 
@@ -157,7 +198,7 @@ class ChatLogger {
         });
 
         this.socket.on("close", (code, reason) => {
-            this.logger.info(`Socket connection closed with code {code}: {reason}`);
+            this.logger.info(`Socket connection closed with code ${code}: ${reason}`);
         });
 
         this.socket.on("unexpected-response", (request, response) => {
@@ -190,5 +231,5 @@ let logo = `
 console.log(logo);
 let cl = new ChatLogger({
     SERVER_URL: SERVER_URL,
-    DB_NAME: "test.db"
+    DB_NAME: "../database/broder-stor.db"
 });
