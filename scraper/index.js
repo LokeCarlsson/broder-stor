@@ -156,7 +156,7 @@ class ChatLogger {
     }
 
     onHeartbeat() {
-        this.logger.info("Heartbeat received");
+        // this.logger.info("Heartbeat received");
         this.lastHeartbeat = new Date();
     }
 
