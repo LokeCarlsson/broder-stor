@@ -53,7 +53,7 @@ class ChatLogger {
         let createChatMessageTable = `
             CREATE TABLE IF NOT EXISTS Chat_Message (
                 id INTEGER PRIMARY KEY,
-                username TEXT,
+                username TEXT REFERENCES User(name),
                 body TEXT,
                 received_on TEXT NOT NULL,
                 channel TEXT
@@ -69,11 +69,21 @@ class ChatLogger {
             )
         `;
 
+        let createUserTable = `
+            CREATE TABLE IF NOT EXISTS User (
+	            name TEXT NOT NULL UNIQUE,
+	            first_message_date TEXT NOT NULL,
+	            banned BOOLEAN NOT NULL,
+	            PRIMARY KEY(name)
+            )
+        `;
+
         let createUsernameIndex = `CREATE INDEX IF NOT EXISTS username ON Chat_Message(username)`;
         let createChannelIndex = `CREATE INDEX IF NOT EXISTS channel ON Chat_Message(channel)`;
         let createUsernameChannelIndex = `CREATE INDEX IF NOT EXISTS username_channel ON Chat_Message(username, channel)`;
 
         this.db.serialize(() => {
+            this.db.run(createUserTable);
             this.db.run(createChatMessageTable);
             this.db.run(createChatMessageSentimentTable);
             this.db.run(createUsernameIndex);
@@ -183,7 +193,7 @@ class ChatLogger {
             this.logger.debug(message);
 
             if (message.type === "heartbeat") {
-                this.logger.info("Heartbeat received");
+                // this.logger.info("Heartbeat received");
             } else if (message.type === "message") {
                 this.onMessage(message);
             } else if (message.type === "notification") {
