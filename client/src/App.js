@@ -6,16 +6,6 @@ import up from './up.png'
 import './App.css';
 
 class App extends Component {
-
-  loop = (items) => {
-    const result = [];
-    for (var i = 0; i < items; i++) {
-      result.push(<Feed />);
-    }
-    return result;
-  }
-
-
   render() {
     return (
       <div className="App">
@@ -25,10 +15,10 @@ class App extends Component {
         </div>
 
         <p className="App-intro">
-        Test
+        Messages
         </p>
         <div className="Feed">
-          {this.loop(200)}
+          <Feed />
         </div>
 
         <ScrollToTop showUnder={250}>

@@ -1,16 +1,30 @@
 import React, { Component } from 'react';
-import LazyLoad from 'react-lazyload';
+import Request from 'react-http-request';
 import './Feed.css';
-import { spinner } from 'react-mdl';
-
-const Lorem = require('react-lorem-component');
 
 class Feed extends Component {
   render() {
     return (
-      <LazyLoad height={500} offset={500} placeholder={spinner} >
-        <Lorem className="Lorem" mode="list" count="1" sentenceUpperBound="2" />
-      </LazyLoad>
+      <Request
+          url='http://api.broderstor.nu/messages'
+          method='get'
+          accept='application/json'
+          verbose={true}>
+          {
+          ({error, result, loading}) => {
+            if (loading) {
+              return <div>loading...</div>;
+            } else {
+
+              let chatMessages = result.body.map(function(chatMessage) {
+                return  <div>{ chatMessage.username + ": " + chatMessage.body }</div>
+              });
+
+              return <div>{ chatMessages }</div>;
+            }
+          }
+        }
+      </Request>
     );
   }
 }
