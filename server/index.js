@@ -21,7 +21,7 @@ app.get('/', function (req, res) {
 
 app.get('/messages', function (req, res) {
     let query = `
-        SELECT * FROM Chat_Message;
+        SELECT * FROM Chat_Message ORDER BY id DESC;
     `
 
     db.all(query, function(error, rows) {
