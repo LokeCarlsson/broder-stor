@@ -6,7 +6,7 @@ class ChatMessageGetter extends EventEmitter {
     constructor() {
         super()
         this.latestId = 0
-        this.url = 'http://localhost:1984/messages'
+        this.url = 'http://api.broderstor.nu/messages'
     }
 
     initialFetch() {
