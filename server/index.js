@@ -25,13 +25,9 @@ app.get('/messages', function (req, res) {
     let before = req.query.before
 
     let query = `
-<<<<<<< HEAD
         SELECT * FROM Chat_Message
         ORDER BY received_on DESC
         LIMIT $limit;
-=======
-        SELECT * FROM Chat_Message ORDER BY id DESC;
->>>>>>> 480ae2115e392283b7f2557f7d9e1ab3bcaf5a93
     `
 
     const queryParams = {}
