@@ -1,10 +1,6 @@
 .Feed {
-  width: 50%;
-  margin: auto;
-  margin-top: 100px;
-}
-
-.Lorem {
-  opacity: 1;
-  transition: opacity 2s linear 1s;
+    padding: 1em;
+    margin: auto;
+    margin-top: 100px;
+    text-align: left;
 }
