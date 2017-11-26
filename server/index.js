@@ -20,15 +20,43 @@ app.get('/', function (req, res) {
 });
 
 app.get('/messages', function (req, res) {
+    let limit = parseInt(req.query.limit, 10) || 20
+    let since = req.query.since
+    let before = req.query.before
+
     let query = `
-        SELECT * FROM Chat_Message;
+        SELECT * FROM Chat_Message
+        ORDER BY received_on DESC
+        LIMIT $limit;
     `
 
-    db.all(query, function(error, rows) {
-        if (!error) {
-            res.send(rows);
+    const queryParams = {}
+    queryParams.$limit = limit > 100 ? 100 : limit
+
+    if (since && parseInt(since)) {
+        query = `
+            SELECT * FROM Chat_Message
+            WHERE id > $since
+            ORDER BY received_on ASC
+            LIMIT $limit;
+        `
+        queryParams.$since = parseInt(since)
+    } else if (before && parseInt(before)) {
+        query = `
+            SELECT * FROM Chat_Message
+            WHERE id > $since
+            ORDER BY received_on ASC
+            LIMIT $limit;
+        `
+        queryParams.$before = parseInt(before)
+    }
+
+    db.all(query, queryParams, (err, rows) => {
+        if (err) {
+            console.log(err)
+            return res.send(err)
         }
-        return
+        return res.send(rows);
     });
 });
 
@@ -43,7 +71,7 @@ app.listen(1984, function () {
 // api.broderstor.nu/messages/?limit=20
 //     Hämtar de 20 senaste meddelandena
 //
-// api.broderstor.nu/messages/?after=<message_id>
+// api.broderstor.nu/messages/?since=<message_id>
 //     Hämtar 50 meddelanden nyare än <message_id>
 //
 // api.broderstor.nu/messages/?before=<message_id>

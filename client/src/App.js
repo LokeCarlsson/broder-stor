@@ -13,10 +13,6 @@ class App extends Component {
           <h1>Broder stor</h1>
           <img src={logo} className="App-logo" alt="logo" />
         </div>
-
-        <p className="App-intro">
-        Messages
-        </p>
         <div className="Feed">
           <Feed />
         </div>
