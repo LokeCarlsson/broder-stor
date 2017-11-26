@@ -12,7 +12,7 @@ class ChatMessageGetter extends EventEmitter {
     initialFetch() {
         return new Promise((resolve, reject) => {
             request.get(this.url)
-                .query({limit:10})
+                .query({limit:1000})
                 .end((err, res) => {
                     if (err) return reject(err)
                     this.latestId = this._getLatestId(res.body)

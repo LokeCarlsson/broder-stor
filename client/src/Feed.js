@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Request from 'react-http-request';
 
 import ChatMessageGetter from './ChatMessageGetter'
 import ChatMessage from './ChatMessage'
@@ -53,10 +52,13 @@ class Feed extends Component {
             return <div>loading...</div>
         } else {
             let chatMessages = this.state.messages.map((message) => {
-                return <ChatMessage message={message}/>
+                return <ChatMessage key={message.id} message={message}/>
+                
             })
 
-            return <div className='chat-messages-container'>{ chatMessages }</div>
+            return <div className='chat-messages-container'>
+                { chatMessages }
+            </div>
         }
     }
 }
